@@ -10,6 +10,8 @@
     <string name="repository">repository</string>
     <string name="location">Pittsburgh, PA, USA</string>
     <string name="company">Google, Inc.</string>
+    <string name="github_image">github image</string>
+    <string name="github_user">GitHub User</string>
 
 
     <string-array name="username">

@@ -56,8 +56,8 @@ class MainActivity : AppCompatActivity() {
             )
             list.add(user)
         }
-        val ListUserAdapter = UserAdapter(list)
-        rvUser.adapter = ListUserAdapter
+        val listUserAdapter = UserAdapter(list)
+        rvUser.adapter = listUserAdapter
     }
 
     private fun stringToArray() {
