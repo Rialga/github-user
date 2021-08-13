@@ -29,9 +29,9 @@ class UserAdapter(private val ListUser: ArrayList<UserModel>) :
 
         holder.binding.tvName.text = user.name
         holder.binding.tvUserName.text = user.username
-        holder.binding.tvFollower.text = user.follower.toString()
-        holder.binding.tvFollowing.text = user.following.toString()
-        holder.binding.tvRepository.text = user.repository.toString()
+        holder.binding.tvFollower.text = user.follower
+        holder.binding.tvFollowing.text = user.following
+        holder.binding.tvRepository.text = user.repository
 
         Glide.with(holder.itemView.context)
             .load(user.avatar)

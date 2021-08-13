@@ -33,10 +33,8 @@ class MainActivity : AppCompatActivity() {
         rvUser = binding.rvUser
         rvUser.setHasFixedSize(true)
 
-
         stringToArray()
         addItemRecycle()
-
 
     }
 
