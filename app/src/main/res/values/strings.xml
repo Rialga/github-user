@@ -12,6 +12,8 @@
     <string name="company">Google, Inc.</string>
     <string name="github_image">github image</string>
     <string name="github_user">GitHub User</string>
+    <string name="tab_follower">Follower</string>
+    <string name="tab_following">Following</string>
 
 
     <string-array name="username">
@@ -117,5 +119,7 @@
         <item>@drawable/user9</item>
         <item>@drawable/user10</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

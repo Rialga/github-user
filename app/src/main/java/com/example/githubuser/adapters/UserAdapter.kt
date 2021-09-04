@@ -11,20 +11,19 @@ import com.example.githubuser.databinding.ItemUserBinding
 import com.example.githubuser.models.UserModel
 
 
-class UserAdapter(private val ListUser: ArrayList<UserModel>) :
-    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val ListUser: ArrayList<UserModel>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
 
     inner class UserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.UserViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = ItemUserBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         return UserViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: UserAdapter.UserViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = ListUser[position]
 
         holder.binding.tvName.text = user.name

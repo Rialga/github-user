@@ -2,6 +2,7 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="96dp"
     android:layout_marginLeft="16dp"
@@ -11,15 +12,18 @@
     card_view:cardCornerRadius="8dp"
     card_view:contentPadding="5dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_icon"
@@ -60,80 +64,80 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="368dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="2dp"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="22dp"
-                android:src="@drawable/ic_follower"
-                />
+                android:src="@drawable/ic_follower" />
 
             <TextView
                 android:id="@+id/tv_follower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
-                android:layout_width="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"
                 android:text="@string/_1"
-                />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
-                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/follower"
-                />
+                android:layout_marginEnd="10dp"
+                android:text="@string/follower" />
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="22dp"
                 android:layout_marginEnd="2dp"
-                android:src="@drawable/ic_following"
-                />
+                android:src="@drawable/ic_following" />
 
             <TextView
                 android:id="@+id/tv_following"
-                android:layout_marginEnd="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginEnd="3dp"
                 android:text="@string/_2"
-                />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="@string/following"/>
+                android:text="@string/following" />
 
             <ImageView
-                android:layout_marginEnd="2dp"
-
                 android:layout_width="15dp"
+
                 android:layout_height="22dp"
-                android:src="@drawable/ic_repo"
-                />
+                android:layout_marginEnd="2dp"
+                android:src="@drawable/ic_repo" />
 
             <TextView
                 android:id="@+id/tv_repository"
-                android:layout_marginEnd="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/black"
+                android:layout_marginEnd="3dp"
                 android:text="@string/_2"
-                />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/repository"/>
+                android:text="@string/repository" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>
