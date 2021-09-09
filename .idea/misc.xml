@@ -8,13 +8,14 @@
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable-anydpi/ic_location.xml" value="0.22552083333333334" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable-anydpi/ic_repo.xml" value="0.22552083333333334" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable/searchview_background.xml" value="0.20555555555555555" />
-        <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_detail.xml" value="0.44398340248962653" />
+        <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_detail.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_splash_screen.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/fragment_followers.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/fragment_following.xml" value="0.1983695652173913" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/item_uesr.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/item_user.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/menu/menu.xml" value="0.209375" />
       </map>
     </option>
   </component>

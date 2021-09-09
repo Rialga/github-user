@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubuser.R
 import com.example.githubuser.adapters.UserAdapter
-import com.example.githubuser.databinding.FragmentFollowersBinding
 import com.example.githubuser.databinding.FragmentFollowingBinding
 import com.example.githubuser.models.GithubUserDetailModel
 import com.example.githubuser.viewmodels.DetailViewModel
@@ -38,11 +36,24 @@ class FollowingFragment : Fragment() {
 
         detailViewModel.getFollowing(userData.login!!)
 
+        showLoading(true)
+
         detailViewModel.followingData.observe(viewLifecycleOwner, { gitHubUserData ->
             _binding?.rvFollowing?.layoutManager = LinearLayoutManager(context)
             val listDataFollower = UserAdapter(gitHubUserData)
             _binding?.rvFollowing?.adapter = listDataFollower
+            showLoading(false)
         })
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            _binding?.progressBarFollowing?.visibility = View.VISIBLE
+            _binding?.rvFollowing?.visibility = View.GONE
+        } else {
+            _binding?.progressBarFollowing?.visibility = View.GONE
+            _binding?.rvFollowing?.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroy() {

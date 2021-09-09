@@ -1,6 +1,7 @@
 package com.example.githubuser.viewmodels
 
 import android.util.Log
+import android.view.Menu
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -55,7 +56,6 @@ class MainViewModel : ViewModel() {
                     Log.d("Error Response", response.errorBody().toString() + "error ini")
                 }
 
-
             }
 
             override fun onFailure(call: Call<GithubUserModel>, t: Throwable) {
@@ -68,4 +68,6 @@ class MainViewModel : ViewModel() {
     fun getData(): LiveData<ArrayList<GithubUserDetailModel>> {
         return gitHubUserDetailModel
     }
+
+
 }

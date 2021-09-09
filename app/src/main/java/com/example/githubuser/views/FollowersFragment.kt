@@ -1,6 +1,5 @@
 package com.example.githubuser.views
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.githubuser.adapters.UserAdapter
 import com.example.githubuser.databinding.FragmentFollowersBinding
 import com.example.githubuser.models.GithubUserDetailModel
 import com.example.githubuser.viewmodels.DetailViewModel
-import com.example.githubuser.viewmodels.MainViewModel
 
 
 class FollowersFragment : Fragment() {
@@ -40,11 +37,24 @@ class FollowersFragment : Fragment() {
 
         detailViewModel.getFollower(userData.login!!)
 
+        showLoading(true)
+
         detailViewModel.getDataFollower().observe(viewLifecycleOwner, { gitHubUserData ->
             _binding?.rvFollower?.layoutManager = LinearLayoutManager(context)
             val listDataFollower = UserAdapter(gitHubUserData)
             _binding?.rvFollower?.adapter = listDataFollower
+            showLoading(false)
         })
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            _binding?.progressBarFollower?.visibility = View.VISIBLE
+            _binding?.rvFollower?.visibility = View.GONE
+        } else {
+            _binding?.progressBarFollower?.visibility = View.GONE
+            _binding?.rvFollower?.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroy() {

@@ -9,6 +9,7 @@ import com.example.githubuser.R
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash_screen)
 
         supportActionBar?.hide()
 

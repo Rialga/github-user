@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Github User</string>
+    <string name="icon">ikon</string>
+    <string name="uname">JakeWharton</string>
+    <string name="name">Jake Wharton</string>
+    <string name="_1">1</string>
+    <string name="follower">pengikut</string>
+    <string name="_2">2</string>
+    <string name="following">mengikuti</string>
+    <string name="repository">repository</string>
+    <string name="location">Pittsburgh, PA, USA</string>
+    <string name="company">Google, Inc.</string>
+    <string name="github_image">github gambar</string>
+    <string name="github_user">Pengguna GitHub</string>
+    <string name="tab_follower">Pengikut</string>
+    <string name="tab_following">Mengikuti</string>
+    <string name="follower_list">Daftar Pengikut </string>
+    <string name="following_list">Daftar Mengikuti</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_language_settings">Ganti Bahasa</string>
+    <string name="enter_user_name">Masukkan User Name</string>
+
+
+</resources>
