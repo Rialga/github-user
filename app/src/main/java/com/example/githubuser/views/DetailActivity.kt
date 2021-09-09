@@ -1,13 +1,14 @@
-package com.example.githubuser.activities
+package com.example.githubuser.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.example.githubuser.R
 import com.example.githubuser.adapters.SectionsPagerAdapter
 import com.example.githubuser.databinding.ActivityDetailBinding
-import com.example.githubuser.models.UserModel
+import com.example.githubuser.models.GithubUserDetailModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -19,20 +20,22 @@ class DetailActivity : AppCompatActivity() {
         val binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val user = intent.getParcelableExtra<UserModel>(EXTRA_USER) as UserModel
 
-        binding.tvCompanyDetail.text = user.company
-        binding.tvNameDetail.text = user.name
-        binding.tvUserNameDetail.text = user.username
-        binding.tvLocationDetail.text = user.location
-        binding.tvFollowerDetail.text = user.follower
-        binding.tvFollowingDetail.text = user.following
-        binding.tvRepositoryDetail.text = user.repository
+        if(userData().company == null){binding.ivCompany.visibility = View.GONE}
+        if(userData().name == null){binding.tvNameDetail.visibility = View.GONE}
+        if(userData().location == null){binding.ivLocation.visibility = View.GONE}
+
+        binding.tvCompanyDetail.text = userData().company
+        binding.tvNameDetail.text = userData().name
+        binding.tvUserNameDetail.text = userData().login
+        binding.tvLocationDetail.text = userData().location
+        binding.tvFollowerDetail.text = userData().followers
+        binding.tvFollowingDetail.text = userData().following
+        binding.tvRepositoryDetail.text = userData().public_repos
 
         Glide.with(this)
-            .load(user.avatar)
+            .load(userData().avatar_url)
             .into(binding.ivIconDetail)
-
 
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
@@ -46,6 +49,12 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
 
         supportActionBar?.elevation = 0f
+
+    }
+
+    fun userData(): GithubUserDetailModel {
+        val user = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserDetailModel
+        return user
     }
 
     companion object {

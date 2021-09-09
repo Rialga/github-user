@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.githubuser.activities.DetailActivity
+import com.example.githubuser.views.DetailActivity
 import com.example.githubuser.databinding.ItemUserBinding
-import com.example.githubuser.models.UserModel
+import com.example.githubuser.models.GithubUserDetailModel
 
 
-class UserAdapter(private val ListUser: ArrayList<UserModel>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val ListUser: ArrayList<GithubUserDetailModel>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-
-    inner class UserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -26,14 +24,15 @@ class UserAdapter(private val ListUser: ArrayList<UserModel>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = ListUser[position]
 
+
         holder.binding.tvName.text = user.name
-        holder.binding.tvUserName.text = user.username
-        holder.binding.tvFollower.text = user.follower
+        holder.binding.tvUserName.text = user.login
+        holder.binding.tvFollower.text = user.followers
         holder.binding.tvFollowing.text = user.following
-        holder.binding.tvRepository.text = user.repository
+        holder.binding.tvRepository.text = user.public_repos
 
         Glide.with(holder.itemView.context)
-            .load(user.avatar)
+            .load(user.avatar_url)
             .into(holder.binding.ivIcon)
 
         holder.itemView.setOnClickListener { v ->
@@ -46,6 +45,9 @@ class UserAdapter(private val ListUser: ArrayList<UserModel>) : RecyclerView.Ada
     override fun getItemCount(): Int {
         return ListUser.size
     }
+
+    inner class UserViewHolder(val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
+
 
 }
 

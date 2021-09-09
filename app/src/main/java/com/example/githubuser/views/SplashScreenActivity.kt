@@ -1,4 +1,4 @@
-package com.example.githubuser.activities
+package com.example.githubuser.views
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,6 @@ import com.example.githubuser.R
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
 
         supportActionBar?.hide()
 
