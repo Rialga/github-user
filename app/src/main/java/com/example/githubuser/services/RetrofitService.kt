@@ -11,22 +11,23 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+
 interface RetrofitService {
 
     @GET("users/{username}")
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     fun getDetail(@Path("username") username: String?): Call<GithubUserDetailModel>
 
     @GET("search/users")
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     fun searchGithubUser( @Query("q") q: String) : Call <GithubUserModel>
 
     @GET("users/{username}/followers")
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     fun getFollower(@Path("username") username: String?): Call<ArrayList<GithubUserModel.Item>>
 
     @GET("users/{username}/following")
-    @Headers("Authorization: token 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")
+    @Headers("Authorization: token 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")
     fun getFollowing(@Path("username") username: String?): Call<ArrayList<GithubUserModel.Item>>
 
     companion object {
