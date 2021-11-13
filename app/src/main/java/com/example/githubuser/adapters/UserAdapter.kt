@@ -1,6 +1,7 @@
 package com.example.githubuser.adapters
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +10,10 @@ import com.bumptech.glide.Glide
 import com.example.githubuser.views.DetailActivity
 import com.example.githubuser.databinding.ItemUserBinding
 import com.example.githubuser.models.GithubUserDetailModel
+import com.example.githubuser.models.GithubUserModel
 
 
-class UserAdapter(private val ListUser: ArrayList<GithubUserDetailModel>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val ListUser: ArrayList<GithubUserModel.Item>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
 
 
@@ -21,15 +23,14 @@ class UserAdapter(private val ListUser: ArrayList<GithubUserDetailModel>) : Recy
         return UserViewHolder(binding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = ListUser[position]
 
 
-        holder.binding.tvName.text = user.name
+        holder.binding.tvId.text = "id : "+user.id.toString()
         holder.binding.tvUserName.text = user.login
-        holder.binding.tvFollower.text = user.followers
-        holder.binding.tvFollowing.text = user.following
-        holder.binding.tvRepository.text = user.public_repos
+
 
         Glide.with(holder.itemView.context)
             .load(user.avatar_url)

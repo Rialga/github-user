@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.adapters.UserAdapter
 import com.example.githubuser.databinding.FragmentFollowingBinding
-import com.example.githubuser.models.GithubUserDetailModel
 import com.example.githubuser.viewmodels.DetailViewModel
 
 class FollowingFragment : Fragment() {
@@ -18,32 +17,40 @@ class FollowingFragment : Fragment() {
     private val binding get() = _binding
     private lateinit var detailViewModel: DetailViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentFollowingBinding.inflate(inflater, container, false)
-        val view = binding?.root
 
-        return view
+        return binding?.root
     }
 
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
-        val activity:DetailActivity = (activity as DetailActivity?)!!
-        val userData: GithubUserDetailModel = activity.userData()
 
-        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(DetailViewModel::class.java)
 
-        detailViewModel.getFollowing(userData.login!!)
+        detailViewModel.getDetail().observe(viewLifecycleOwner, { detailValue ->
+            detailViewModel.getFollower(detailValue.login!!)
 
-        showLoading(true)
+            showLoading(true)
 
-        detailViewModel.followingData.observe(viewLifecycleOwner, { gitHubUserData ->
-            _binding?.rvFollowing?.layoutManager = LinearLayoutManager(context)
-            val listDataFollower = UserAdapter(gitHubUserData)
-            _binding?.rvFollowing?.adapter = listDataFollower
-            showLoading(false)
+            detailViewModel.getDataFollowing().observe(viewLifecycleOwner, { followerData ->
+                _binding?.rvFollowing?.layoutManager = LinearLayoutManager(context)
+                val listDataFollower = UserAdapter(followerData)
+                _binding?.rvFollowing?.adapter = listDataFollower
+                showLoading(false)
+            })
         })
+
+
     }
 
     private fun showLoading(state: Boolean) {
@@ -60,6 +67,7 @@ class FollowingFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 
 
 }

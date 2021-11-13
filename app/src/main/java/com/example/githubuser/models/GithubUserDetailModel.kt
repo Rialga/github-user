@@ -15,5 +15,4 @@ data class GithubUserDetailModel (
     val followers: String,
     val following: String,
     val public_repos: String
-
 ):Parcelable

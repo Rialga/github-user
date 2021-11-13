@@ -12,42 +12,25 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailViewModel : ViewModel() {
-    val followerData = MutableLiveData<ArrayList<GithubUserDetailModel>>()
-    val followingData = MutableLiveData<ArrayList<GithubUserDetailModel>>()
+    val followerData = MutableLiveData<ArrayList<GithubUserModel.Item>>()
+    val followingData = MutableLiveData<ArrayList<GithubUserModel.Item>>()
+    val detailData = MutableLiveData<GithubUserDetailModel>()
     private val retrofitService = RetrofitService
 
 
     fun getFollower(username : String){
-        val response_follower = retrofitService.getInstance().getFollower(username)
+        val responseFollower = retrofitService.getInstance().getFollower(username)
 
-        response_follower.enqueue(object : Callback<ArrayList<GithubUserModel.Item>>{
+        responseFollower.enqueue(object : Callback<ArrayList<GithubUserModel.Item>>{
             override fun onResponse(
                 call: Call<ArrayList<GithubUserModel.Item>>,
                 response: Response<ArrayList<GithubUserModel.Item>>
             ) {
                 if (response.isSuccessful) {
                     Log.d("success vm ", response.body().toString())
-                    val list_follower = arrayListOf<GithubUserDetailModel>()
 
-                    response.body()?.forEach { item ->
-                        val response_detail_follower = retrofitService.getInstance().getDetail(item.login)
+                    followerData.postValue(response.body())
 
-                        response_detail_follower.enqueue(object : Callback<GithubUserDetailModel> {
-                            override fun onResponse(
-                                call: Call<GithubUserDetailModel>,
-                                response: Response<GithubUserDetailModel>
-                            ) {
-                                list_follower += response.body()!!
-                                followerData.postValue(list_follower)
-                            }
-
-                            override fun onFailure(
-                                call: Call<GithubUserDetailModel>, t: Throwable
-                            ) {
-                                Log.d("err detail vm ", t.message.toString())
-                            }
-                        })
-                    }
 
                 } else {
                     Log.d("Error Response", response.errorBody().toString() + "error ini")
@@ -63,36 +46,16 @@ class DetailViewModel : ViewModel() {
 
 
     fun getFollowing(username : String){
-        val response_following = retrofitService.getInstance().getFollowing(username)
+        val responseFollowing = retrofitService.getInstance().getFollowing(username)
 
-        response_following.enqueue(object : Callback<ArrayList<GithubUserModel.Item>>{
+        responseFollowing.enqueue(object : Callback<ArrayList<GithubUserModel.Item>>{
             override fun onResponse(
                 call: Call<ArrayList<GithubUserModel.Item>>,
                 response: Response<ArrayList<GithubUserModel.Item>>
             ) {
                 if (response.isSuccessful) {
                     Log.d("success vm ", response.body().toString())
-                    val list_following = arrayListOf<GithubUserDetailModel>()
-
-                    response.body()?.forEach { item ->
-                        val response_detail_following = retrofitService.getInstance().getDetail(item.login)
-
-                        response_detail_following.enqueue(object : Callback<GithubUserDetailModel> {
-                            override fun onResponse(
-                                call: Call<GithubUserDetailModel>,
-                                response: Response<GithubUserDetailModel>
-                            ) {
-                                list_following += response.body()!!
-                                followingData.postValue(list_following)
-                            }
-
-                            override fun onFailure(
-                                call: Call<GithubUserDetailModel>, t: Throwable
-                            ) {
-                                Log.d("err detail vm ", t.message.toString())
-                            }
-                        })
-                    }
+                    followingData.postValue(response.body())
 
                 } else {
                     Log.d("Error Response", response.errorBody().toString() + "error ini")
@@ -106,11 +69,33 @@ class DetailViewModel : ViewModel() {
         })
     }
 
-    fun getDataFollowing(): LiveData<ArrayList<GithubUserDetailModel>> {
+    fun getData(username : String){
+        val responseFollowing = retrofitService.getInstance().getDetail(username)
+
+        responseFollowing.enqueue(object : Callback<GithubUserDetailModel>{
+            override fun onResponse(
+                call: Call<GithubUserDetailModel>,
+                response: Response<GithubUserDetailModel>
+            ) {
+                detailData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<GithubUserDetailModel>, t: Throwable) {
+                Log.d("Error Response", t.message + "error ini")
+            }
+
+        })
+    }
+
+    fun getDataFollowing(): LiveData<ArrayList<GithubUserModel.Item>> {
         return followingData
     }
-    fun getDataFollower(): LiveData<ArrayList<GithubUserDetailModel>> {
+    fun getDataFollower(): LiveData<ArrayList<GithubUserModel.Item>> {
         return followerData
+    }
+
+    fun getDetail(): LiveData<GithubUserDetailModel> {
+        return detailData
     }
 
 }

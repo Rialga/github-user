@@ -12,7 +12,6 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textSize="20sp"
-        android:textColor="@android:color/black"
         android:text="@string/follower_list" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,47 +1,65 @@
 package com.example.githubuser.views
 
+import android.R.id
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.githubuser.R
 import com.example.githubuser.adapters.SectionsPagerAdapter
 import com.example.githubuser.databinding.ActivityDetailBinding
 import com.example.githubuser.models.GithubUserDetailModel
+import com.example.githubuser.models.GithubUserModel
+import com.example.githubuser.viewmodels.DetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.loopj.android.http.AsyncHttpClient.log
+import android.R.id.message
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 
 
 class DetailActivity : AppCompatActivity() {
 
+    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var userId: String
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+        val intentData = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserModel.Item
+        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
+        detailViewModel.getData(intentData.login)
 
         val binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        detailViewModel.getDetail().observe(this, { gitHubUserData ->
 
-        if(userData().company == null){binding.ivCompany.visibility = View.GONE}
-        if(userData().name == null){binding.tvNameDetail.visibility = View.GONE}
-        if(userData().location == null){binding.ivLocation.visibility = View.GONE}
+            with(binding){
+                if(gitHubUserData.name == null){tvNameDetail.visibility = View.GONE}
+                if(gitHubUserData.location == null){ivLocation.visibility = View.GONE}
 
-        binding.tvCompanyDetail.text = userData().company
-        binding.tvNameDetail.text = userData().name
-        binding.tvUserNameDetail.text = userData().login
-        binding.tvLocationDetail.text = userData().location
-        binding.tvFollowerDetail.text = userData().followers
-        binding.tvFollowingDetail.text = userData().following
-        binding.tvRepositoryDetail.text = userData().public_repos
-
-        Glide.with(this)
-            .load(userData().avatar_url)
-            .into(binding.ivIconDetail)
-
-
+                tvCompanyDetail.text = gitHubUserData.company
+                tvNameDetail.text = gitHubUserData.name
+                tvUserNameDetail.text = gitHubUserData.login
+                tvLocationDetail.text = gitHubUserData.location
+                tvFollowerDetail.text = gitHubUserData.followers
+                tvFollowingDetail.text = gitHubUserData.following
+                tvRepositoryDetail.text = gitHubUserData.public_repos
+            }
+            Glide.with(this)
+                .load(gitHubUserData.avatar_url)
+                .into(binding.ivIconDetail)
+        })
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
 
         val viewPager =  binding.viewPager
@@ -60,18 +78,14 @@ class DetailActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_change_settings) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
+        if (item.itemId == R.id.setting) {
+            startActivity(Intent(this, SettingActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun userData(): GithubUserDetailModel {
-        val user = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserDetailModel
-        return user
-    }
 
     companion object {
         const val EXTRA_USER = "extra_user"
