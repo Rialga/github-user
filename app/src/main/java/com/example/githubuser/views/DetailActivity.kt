@@ -21,6 +21,7 @@ import com.example.githubuser.viewmodels.DetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.loopj.android.http.AsyncHttpClient.log
 import android.R.id.message
+import androidx.activity.viewModels
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
@@ -28,15 +29,15 @@ import androidx.fragment.app.commit
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var detailViewModel: DetailViewModel
     private lateinit var userId: String
+    private val detailViewModel by viewModels<DetailViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         val intentData = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserModel.Item
-        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
+
         detailViewModel.getData(intentData.login)
 
         val binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -55,12 +56,15 @@ class DetailActivity : AppCompatActivity() {
                 tvFollowerDetail.text = gitHubUserData.followers
                 tvFollowingDetail.text = gitHubUserData.following
                 tvRepositoryDetail.text = gitHubUserData.public_repos
+
             }
             Glide.with(this)
                 .load(gitHubUserData.avatar_url)
                 .into(binding.ivIconDetail)
         })
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
+
+
 
         val viewPager =  binding.viewPager
         val tabs = binding.tabs
@@ -86,6 +90,11 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+
+    fun getUsername(): String? {
+        val intentData = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserModel.Item
+        return intentData.login
+    }
 
     companion object {
         const val EXTRA_USER = "extra_user"

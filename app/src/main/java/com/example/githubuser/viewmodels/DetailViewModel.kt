@@ -31,7 +31,6 @@ class DetailViewModel : ViewModel() {
 
                     followerData.postValue(response.body())
 
-
                 } else {
                     Log.d("Error Response", response.errorBody().toString() + "error ini")
                 }

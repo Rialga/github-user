@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.adapters.UserAdapter
@@ -15,7 +16,8 @@ class FollowingFragment : Fragment() {
 
     private var _binding: FragmentFollowingBinding? = null
     private val binding get() = _binding
-    private lateinit var detailViewModel: DetailViewModel
+    private val detailViewModel by viewModels<DetailViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,22 +34,18 @@ class FollowingFragment : Fragment() {
         super.onViewCreated(itemView, savedInstanceState)
 
 
-        detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(DetailViewModel::class.java)
 
-        detailViewModel.getDetail().observe(viewLifecycleOwner, { detailValue ->
-            detailViewModel.getFollower(detailValue.login!!)
+        val dataUsername: DetailActivity? = activity as DetailActivity?
 
-            showLoading(true)
+        detailViewModel.getFollowing(dataUsername?.getUsername()!!)
 
-            detailViewModel.getDataFollowing().observe(viewLifecycleOwner, { followerData ->
-                _binding?.rvFollowing?.layoutManager = LinearLayoutManager(context)
-                val listDataFollower = UserAdapter(followerData)
-                _binding?.rvFollowing?.adapter = listDataFollower
-                showLoading(false)
-            })
+        showLoading(true)
+
+        detailViewModel.getDataFollowing().observe(viewLifecycleOwner, { followerData ->
+            _binding?.rvFollowing?.layoutManager = LinearLayoutManager(context)
+            val listDataFollower = UserAdapter(followerData)
+            _binding?.rvFollowing?.adapter = listDataFollower
+            showLoading(false)
         })
 
 

@@ -4,18 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.adapters.UserAdapter
 import com.example.githubuser.databinding.FragmentFollowersBinding
 import com.example.githubuser.viewmodels.DetailViewModel
+import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.AsyncHttpClient.log
 
 
 class FollowersFragment : Fragment() {
     private var _binding: FragmentFollowersBinding? = null
     private val binding get() = _binding
-    private lateinit var detailViewModel: DetailViewModel
+    private val detailViewModel by viewModels<DetailViewModel>()
 
 
     override fun onCreateView(
@@ -32,23 +36,17 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
-        detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(DetailViewModel::class.java)
+        val dataUsername: DetailActivity? = activity as DetailActivity?
 
+        detailViewModel.getFollower(dataUsername?.getUsername()!!)
 
-        detailViewModel.getDetail().observe(viewLifecycleOwner, { gitHubUserData ->
-            detailViewModel.getFollower(gitHubUserData.login!!)
+        showLoading(true)
 
-            showLoading(true)
-
-            detailViewModel.getDataFollower().observe(viewLifecycleOwner, { followerData ->
-                _binding?.rvFollower?.layoutManager = LinearLayoutManager(context)
-                val listDataFollower = UserAdapter(followerData)
-                _binding?.rvFollower?.adapter = listDataFollower
-                showLoading(false)
-            })
+        detailViewModel.getDataFollower().observe(viewLifecycleOwner, { followerData ->
+            _binding?.rvFollower?.layoutManager = LinearLayoutManager(context)
+            val listDataFollower = UserAdapter(followerData)
+            _binding?.rvFollower?.adapter = listDataFollower
+            showLoading(false)
         })
 
     }
