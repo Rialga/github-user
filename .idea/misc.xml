@@ -7,10 +7,13 @@
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable-anydpi/ic_following.xml" value="0.22552083333333334" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable-anydpi/ic_location.xml" value="0.22552083333333334" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable-anydpi/ic_repo.xml" value="0.22552083333333334" />
+        <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable/ic_baseline_favorite_red_24.xml" value="0.22447916666666667" />
+        <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable/rounded_bottom_corner.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable/rounded_top_corner.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/drawable/searchview_background.xml" value="0.20555555555555555" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_detail.xml" value="0.18" />
+        <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_favorite_list.xml" value="0.11367753623188406" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_setting.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/GithubUser/app/src/main/res/layout/activity_splash_screen.xml" value="0.209375" />

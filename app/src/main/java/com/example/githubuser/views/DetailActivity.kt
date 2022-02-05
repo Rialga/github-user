@@ -1,11 +1,8 @@
 package com.example.githubuser.views
 
-import android.R.id
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,29 +16,35 @@ import com.example.githubuser.models.GithubUserDetailModel
 import com.example.githubuser.models.GithubUserModel
 import com.example.githubuser.viewmodels.DetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.loopj.android.http.AsyncHttpClient.log
-import android.R.id.message
-import androidx.activity.viewModels
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.widget.Toast
+import com.example.githubuser.factory.ViewModelFactory
+import com.example.githubuser.models.GithubUserFavoriteModel
 
 
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var userId: String
-    private val detailViewModel by viewModels<DetailViewModel>()
+    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var binding: ActivityDetailBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         val intentData = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserModel.Item
+        this.title = "Detail User"
 
+
+        detailViewModel = obtainViewModel(this)
         detailViewModel.getData(intentData.login)
 
-        val binding = ActivityDetailBinding.inflate(layoutInflater)
+
+
+        binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        showLoading(true)
 
         detailViewModel.getDetail().observe(this, { gitHubUserData ->
 
@@ -61,6 +64,7 @@ class DetailActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(gitHubUserData.avatar_url)
                 .into(binding.ivIconDetail)
+            showLoading(false)
         })
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
 
@@ -76,6 +80,57 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.elevation = 0f
 
+
+
+        val githubUserFavoriteModel = GithubUserFavoriteModel()
+
+        detailViewModel.search(intentData.login)
+
+        var isFavorite = false
+            detailViewModel.search(intentData.login).observe(this, { data ->
+
+                if(data.isNotEmpty()){
+                    isFavorite = true
+                    githubUserFavoriteModel.avatar_url =data.last().avatar_url
+                    githubUserFavoriteModel.user_id =data.last().user_id
+                    githubUserFavoriteModel.login =data.last().login
+                    githubUserFavoriteModel.id =data.last().id
+                    binding.favoriteButton.imageTintList = ColorStateList.valueOf(Color.RED)
+
+                }
+
+
+            })
+
+
+        if(!isFavorite){
+            githubUserFavoriteModel.avatar_url = intentData.avatar_url
+            githubUserFavoriteModel.user_id = intentData.id
+            githubUserFavoriteModel.login = intentData.login
+            binding.favoriteButton.imageTintList = ColorStateList.valueOf(Color.GRAY)
+        }
+
+        binding.favoriteButton.setOnClickListener {
+            if(isFavorite){
+                detailViewModel.delete(githubUserFavoriteModel)
+                binding.favoriteButton.imageTintList = ColorStateList.valueOf(Color.GRAY)
+                Toast.makeText(this, "Remove From Favorite", Toast.LENGTH_SHORT).show()
+                isFavorite = false
+
+            }
+            else{
+                detailViewModel.insert(githubUserFavoriteModel)
+                binding.favoriteButton.imageTintList = ColorStateList.valueOf(Color.RED)
+                Toast.makeText(this, "Add to Favorite", Toast.LENGTH_SHORT).show()
+                isFavorite = true
+            }
+        }
+
+    }
+
+    private fun obtainViewModel(activity: AppCompatActivity): DetailViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -84,14 +139,27 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.setting) {
-            startActivity(Intent(this, SettingActivity::class.java))
+        when(item.itemId){
+            R.id.setting-> startActivity(Intent(this@DetailActivity, SettingActivity::class.java))
+            R.id.favorite-> startActivity(Intent(this@DetailActivity, FavoriteListActivity::class.java))
+
         }
         return super.onOptionsItemSelected(item)
+
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            binding.loadingDetail.visibility = View.VISIBLE
+            binding.scrollView2.visibility = View.GONE
+        } else {
+            binding.loadingDetail.visibility = View.GONE
+            binding.scrollView2.visibility = View.VISIBLE
+        }
     }
 
 
-    fun getUsername(): String? {
+    fun getUsername(): String {
         val intentData = intent.getParcelableExtra<GithubUserDetailModel>(EXTRA_USER) as GithubUserModel.Item
         return intentData.login
     }

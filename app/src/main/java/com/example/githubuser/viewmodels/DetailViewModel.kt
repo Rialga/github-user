@@ -1,21 +1,26 @@
 package com.example.githubuser.viewmodels
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubuser.models.GithubUserDetailModel
+import com.example.githubuser.models.GithubUserFavoriteModel
 import com.example.githubuser.models.GithubUserModel
+import com.example.githubuser.repository.GithubUserFavoriteRepository
 import com.example.githubuser.services.RetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel : ViewModel() {
-    val followerData = MutableLiveData<ArrayList<GithubUserModel.Item>>()
-    val followingData = MutableLiveData<ArrayList<GithubUserModel.Item>>()
+class DetailViewModel(application : Application) : ViewModel() {
+        val followerData = MutableLiveData<ArrayList<GithubUserModel.Item>>()
+        val followingData = MutableLiveData<ArrayList<GithubUserModel.Item>>()
     val detailData = MutableLiveData<GithubUserDetailModel>()
+
     private val retrofitService = RetrofitService
+    private val mGithubUserFavoriteRepository: GithubUserFavoriteRepository = GithubUserFavoriteRepository(application)
 
 
     fun getFollower(username : String){
@@ -27,8 +32,6 @@ class DetailViewModel : ViewModel() {
                 response: Response<ArrayList<GithubUserModel.Item>>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("success vm ", response.body().toString())
-
                     followerData.postValue(response.body())
 
                 } else {
@@ -53,7 +56,6 @@ class DetailViewModel : ViewModel() {
                 response: Response<ArrayList<GithubUserModel.Item>>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("success vm ", response.body().toString())
                     followingData.postValue(response.body())
 
                 } else {
@@ -86,6 +88,20 @@ class DetailViewModel : ViewModel() {
         })
     }
 
+    fun insert(user: GithubUserFavoriteModel) {
+        mGithubUserFavoriteRepository.insert(user)
+    }
+
+    fun delete(user: GithubUserFavoriteModel) {
+        mGithubUserFavoriteRepository.delete(user)
+    }
+
+    fun search(login:String): LiveData<List<GithubUserFavoriteModel>> {
+
+        return  mGithubUserFavoriteRepository.search(login)
+    }
+
+
     fun getDataFollowing(): LiveData<ArrayList<GithubUserModel.Item>> {
         return followingData
     }
@@ -96,5 +112,6 @@ class DetailViewModel : ViewModel() {
     fun getDetail(): LiveData<GithubUserDetailModel> {
         return detailData
     }
+
 
 }

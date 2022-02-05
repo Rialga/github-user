@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.view.Menu
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
@@ -14,9 +13,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubuser.R
 import com.example.githubuser.databinding.ActivitySettingBinding
+import com.example.githubuser.factory.SettingFactory
 import com.example.githubuser.localdata.SettingPreferences
 import com.example.githubuser.viewmodels.SettingViewModel
-import com.example.githubuser.viewmodels.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class SettingActivity : AppCompatActivity() {
@@ -26,14 +25,15 @@ class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.title = "Setting"
+        this.title = getString(R.string.setting)
+
 
         binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val pref = SettingPreferences.getInstance(dataStore)
 
-        settingViewModel = ViewModelProvider(this, ViewModelFactory(pref))[SettingViewModel::class.java]
+        settingViewModel = ViewModelProvider(this, SettingFactory(pref))[SettingViewModel::class.java]
 
 
         binding.cv1.setOnClickListener {
@@ -56,16 +56,5 @@ class SettingActivity : AppCompatActivity() {
             settingViewModel.saveThemeSetting(isChecked)
         }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.setting)?.isVisible = false
-        return super.onPrepareOptionsMenu(menu)
-    }
-
 
 }

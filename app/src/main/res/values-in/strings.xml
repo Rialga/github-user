@@ -26,5 +26,10 @@
     <string name="detail">Detil</string>
     <string name="dark_mode">Mode Gelap</string>
 
+    <string name="favorite_button">Tombol Favorit</string>
+    <string name="favorite_list">Daftar Favorit</string>
+
+
+
 
 </resources>

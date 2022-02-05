@@ -9,13 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubuser.views.DetailActivity
 import com.example.githubuser.databinding.ItemUserBinding
-import com.example.githubuser.models.GithubUserDetailModel
 import com.example.githubuser.models.GithubUserModel
 
 
 class UserAdapter(private val ListUser: ArrayList<GithubUserModel.Item>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = ItemUserBinding

@@ -2,7 +2,6 @@ package com.example.githubuser.models
 
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.math.BigInteger
 
@@ -14,7 +13,7 @@ data class GithubUserModel(
     @Parcelize
     data class Item(
         val id: Int,
-        val login: String,
-        var avatar_url : String,
+        var login : String,
+        var avatar_url: String,
     ): Parcelable
 }

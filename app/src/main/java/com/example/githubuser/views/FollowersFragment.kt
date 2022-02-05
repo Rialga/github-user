@@ -4,22 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.adapters.UserAdapter
 import com.example.githubuser.databinding.FragmentFollowersBinding
+import com.example.githubuser.factory.ViewModelFactory
 import com.example.githubuser.viewmodels.DetailViewModel
-import com.loopj.android.http.AsyncHttpClient
-import com.loopj.android.http.AsyncHttpClient.log
 
 
 class FollowersFragment : Fragment() {
     private var _binding: FragmentFollowersBinding? = null
     private val binding get() = _binding
-    private val detailViewModel by viewModels<DetailViewModel>()
+    private lateinit var detailViewModel: DetailViewModel
 
 
     override fun onCreateView(
@@ -38,6 +35,7 @@ class FollowersFragment : Fragment() {
 
         val dataUsername: DetailActivity? = activity as DetailActivity?
 
+        detailViewModel = obtainViewModel(this)
         detailViewModel.getFollower(dataUsername?.getUsername()!!)
 
         showLoading(true)
@@ -49,6 +47,12 @@ class FollowersFragment : Fragment() {
             showLoading(false)
         })
 
+    }
+
+
+    private fun obtainViewModel(fragment: Fragment): DetailViewModel {
+        val factory = ViewModelFactory.getInstance(fragment.requireActivity().application)
+        return ViewModelProvider(this, factory)[DetailViewModel::class.java]
     }
 
     private fun showLoading(state: Boolean) {

@@ -5,19 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.adapters.UserAdapter
 import com.example.githubuser.databinding.FragmentFollowingBinding
+import com.example.githubuser.factory.ViewModelFactory
 import com.example.githubuser.viewmodels.DetailViewModel
 
 class FollowingFragment : Fragment() {
 
     private var _binding: FragmentFollowingBinding? = null
     private val binding get() = _binding
-    private val detailViewModel by viewModels<DetailViewModel>()
-
+    private lateinit var detailViewModel: DetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +36,8 @@ class FollowingFragment : Fragment() {
 
         val dataUsername: DetailActivity? = activity as DetailActivity?
 
+        detailViewModel = obtainViewModel(this)
+
         detailViewModel.getFollowing(dataUsername?.getUsername()!!)
 
         showLoading(true)
@@ -49,6 +50,11 @@ class FollowingFragment : Fragment() {
         })
 
 
+    }
+
+    private fun obtainViewModel(fragment: Fragment): DetailViewModel {
+        val factory = ViewModelFactory.getInstance(fragment.requireActivity().application)
+        return ViewModelProvider(this, factory)[DetailViewModel::class.java]
     }
 
     private fun showLoading(state: Boolean) {
